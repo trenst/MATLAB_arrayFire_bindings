@@ -12,16 +12,16 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 
     try {
 #ifdef UNIFIED_BACKEND
-		af::setBackend(afM_BACKEND);
+		af::setBackend(afCommon::af_BACKEND);
+		af::setDevice(afCommon::af_DEVICE);
 #endif
 
         if (isAllocated) {
             *ref_out = 0;
             af::array *ref_a = reinterpret_cast<af::array*>(*ref);
+#ifdef PRINTPOINTERDELETEINFO
             mexPrintf("Deleting pointer %llu.\n", *ref);
-			/*if (ref_a->isLocked()) {
-				ref_a->unlock();
-			}*/
+#endif
             delete ref_a;
         }
         else {

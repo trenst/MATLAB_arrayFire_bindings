@@ -24,9 +24,9 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 
     try {
 #ifdef UNIFIED_BACKEND
-        af::setBackend(afM_BACKEND);
+		af::setBackend(afCommon::af_BACKEND);
+		af::setDevice(afCommon::af_DEVICE);
 #endif
-		mexPrintf(af::infoString());
         af::array *ref_a{ nullptr };
         bool supportedClass = false;
         if (mxGetClassID(prhs[0]) == mxDOUBLE_CLASS) {

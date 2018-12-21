@@ -3,7 +3,7 @@ close('all');
 fclose('all');
 
 
-if (1)
+if (0)
     clear('afHostMemToDeviceMem_mex');
     clear('afDeleteArray_mex');
     clear('getAFmem_mex');
@@ -13,12 +13,12 @@ end
 
 addpath(fullfile('..','Interp2'));
 
-NptsX = 2;
-NptsY = 2;
+NptsX = 100;
+NptsY = 75;
 
-Xmax = 1;
+Xmax = 15;
 Xmin = -Xmax;
-Ymax = 1;
+Ymax = 13;
 Ymin = -Ymax;
 Xv = linspace(Xmin,Xmax,NptsX);
 Yv = linspace(Ymin,Ymax,NptsY).';
@@ -42,18 +42,24 @@ imagesc(Xv,Yv,imag(Zv))
 colorbar
 %}
 
+
 %Nrand = 1000000;
-szRand = [4, 1];
+szRand = [4000000, 1];
 Xrand = (Xmax - Xmin)*rand(szRand) + Xmin;
 Yrand = (Ymax - Ymin)*rand(szRand) + Ymin;
 %Expand the points to interpolate to outside of the function to test
 %zeroing out data
-%Xrand = 1.1*Xrand;
-%Yrand = 1.1*Yrand;    
+Xrand = 1.1*Xrand;
+Yrand = 1.1*Yrand;    
 
 [Xrand_1, Yrand_1] = scale_interp2_grid(Xmesh, Ymesh, Xrand, Yrand);
 
-Zi = interp2(Zv, Xrand_1, Yrand_1, 'linear', 0.);
+NLoop  = 100;
+tic
+for ind=1:NLoop
+    Zi = interp2(Zv, Xrand_1, Yrand_1, 'linear', 0.);
+end
+toc
 %Zi_hmmm = interp2(Xmesh, Ymesh, Zv, Xrand, Yrand, 'linear', 0.);
 
 %diff_zmat = max(abs(Zi(:) - Zi_hmmm(:)))
@@ -64,8 +70,15 @@ ZvAF = afArray(Zv);
 XrandAF = afArray(Xrand_0);
 YrandAF = afArray(Yrand_0);
 
-ZiAF = afFunct.approx2(ZvAF, XrandAF, YrandAF);
+tic
+for ind = 1:NLoop
+    ZiAF = afFunct.approx2(ZvAF, YrandAF, XrandAF);
+end
+toc
+
+
 Zi2 = ZiAF.getAFmem();
+
 
 diffz = Zi - Zi2;
 

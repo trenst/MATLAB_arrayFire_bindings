@@ -2,6 +2,10 @@ classdef afFunct < handle
    
     methods(Static)
         function out = approx2(in, pos0, pos1, method, offGrid)
+            %Note that the arrayFire approx2 function uses (in,pos0,pos1)
+            %pos0 is the first dimension, which is rows, pos1 is the second
+            %dimension which is columns.  Note the ordering pos0, pos1
+            %is (Y, X)
             if (nargin < 3)
                 error('approx2 requires at least 3 input parameters.')
             end
@@ -16,7 +20,7 @@ classdef afFunct < handle
                 AF_INTERP_BILINEAR_COSINE, AF_INTERP_BICUBIC,
                 AF_INTERP_CUBIC_SPLINE, AF_INTERP_BICUBIC_SPLINE
                 %}      
-                method = 'AF_INTERP_LINEAR';
+                method = 'AF_INTERP_BILINEAR';
             end
             %out = approx2_mex(in.prop.Pgpu, pos0.prop.Pgpu, pos1.prop.Pgpu, method, offGrid);
             out = afArray( approx2_mex(in.prop.Pgpu, pos0.prop.Pgpu, pos1.prop.Pgpu, method, offGrid) );

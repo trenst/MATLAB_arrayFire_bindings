@@ -12,12 +12,13 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 
     try {
 #ifdef UNIFIED_BACKEND
-		af::setBackend(afM_BACKEND);
+		af::setBackend(afCommon::af_BACKEND);
+		af::setDevice(afCommon::af_DEVICE);
 #endif
         if (isAllocated) {
             af::array *ref_a = reinterpret_cast<af::array*>(*ref);
 
-			mexPrintf("ref_a backend: %d\n", af::getBackendId(*ref_a));
+			//mexPrintf("ref_a backend: %d\n", af::getBackendId(*ref_a));
 
             mxClassID classID4mx = ref_a->isdouble() ? mxDOUBLE_CLASS : mxSINGLE_CLASS;
             mxComplexity complexity4mx = ref_a->iscomplex() ? mxCOMPLEX : mxREAL;

@@ -14,8 +14,8 @@
 #define DLL_PUBLIC
 #endif
 
-#define PRINTTIMINGINFOFLAG
-#define PRINTTIMINGKERNELINFOFLAG
+//#define PRINTPOINTERDELETEINFO
+#undef PRINTPOINTERDELETEINFO
 
 //#define UNIFIED_BACKEND
 #undef UNIFIED_BACKEND
@@ -25,20 +25,24 @@ namespace afCommon {
 	const size_t dims_11[2]{ 1,1 };
 	typedef long long int llint;
 	typedef unsigned long long int ullint;
-	std::map<std::u16string, af::interpType> interpTypeMap = {
-		{ u"AF_INTERP_NEAREST", AF_INTERP_NEAREST },
-		{ u"AF_INTERP_LINEAR", AF_INTERP_LINEAR },
-		{ u"AF_INTERP_BILINEAR", AF_INTERP_BILINEAR },
-		{ u"AF_INTERP_CUBIC", AF_INTERP_CUBIC },
-		{ u"AF_INTERP_LOWER", AF_INTERP_LOWER }
+	std::map<std::string, af::interpType> interpTypeMap = {
+		{ "AF_INTERP_NEAREST", AF_INTERP_NEAREST },
+		{ "AF_INTERP_LINEAR", AF_INTERP_LINEAR },
+		{ "AF_INTERP_BILINEAR", AF_INTERP_BILINEAR },
+		{ "AF_INTERP_CUBIC", AF_INTERP_CUBIC },
+		{ "AF_INTERP_LOWER", AF_INTERP_LOWER }
 #if AF_API_VERSION >= 34
-		,{ u"AF_INTERP_LINEAR_COSINE", AF_INTERP_LINEAR_COSINE },
-		{ u"AF_INTERP_BILINEAR_COSINE", AF_INTERP_BILINEAR_COSINE },
-		{ u"AF_INTERP_BICUBIC", AF_INTERP_BICUBIC },
-		{ u"AF_INTERP_CUBIC_SPLINE", AF_INTERP_CUBIC_SPLINE },
-		{ u"AF_INTERP_BICUBIC_SPLINE", AF_INTERP_BICUBIC_SPLINE }
+		,{ "AF_INTERP_LINEAR_COSINE", AF_INTERP_LINEAR_COSINE },
+		{ "AF_INTERP_BILINEAR_COSINE", AF_INTERP_BILINEAR_COSINE },
+		{ "AF_INTERP_BICUBIC", AF_INTERP_BICUBIC },
+		{ "AF_INTERP_CUBIC_SPLINE", AF_INTERP_CUBIC_SPLINE },
+		{ "AF_INTERP_BICUBIC_SPLINE", AF_INTERP_BICUBIC_SPLINE }
 #endif
 	};
+
+static af::Backend af_BACKEND = AF_BACKEND_CUDA;
+static int af_DEVICE = 0;
+
 }
 
 
@@ -50,12 +54,15 @@ mxUint64 *refPointer2mxUint64(mxArray* &mary) {
 
 mxArray *refPointer2mxStruct(const std::vector<size_t> &sz, bool isDouble, bool isReal, void *Pgpu) {
 
-	mxArray *sz_ary{ mxCreateDoubleMatrix(1, sz.size(), mxREAL) };
+	size_t size_4_size = (sz.size() == 1) ? 2 : sz.size();
+	mxArray *sz_ary{ mxCreateDoubleMatrix(1, size_4_size, mxREAL) };
 	mxDouble *sz_d{ mxGetDoubles(sz_ary) };
 	for (size_t ii = 0; ii < sz.size(); ii++) {
-		mexPrintf("%d of %d.\n", ii, sz.size());
 		sz_d[ii] = static_cast<mxDouble>(sz.at(ii));
-	};
+	}
+	if (sz.size() == 1) {
+		sz_d[1] = 1.;
+	}
 
 	std::string dtype = isDouble ? "double" : "single";
 
@@ -78,6 +85,5 @@ mxArray *refPointer2mxStruct(const std::vector<size_t> &sz, bool isDouble, bool 
 
 }
 
-static af::Backend afM_BACKEND = AF_BACKEND_CUDA;
 
 #endif

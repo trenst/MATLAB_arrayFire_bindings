@@ -3,6 +3,6 @@
 
 #include "..\afCommon\afCommon.h"
 #include <memory>
-#include "af\internal.h"
+//#include "af\internal.h"
 
 #endif
