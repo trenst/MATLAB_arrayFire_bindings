@@ -26,13 +26,8 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 			af::array out = af::approx2(*in, *pos0, *pos1, method,
 				static_cast<float>(*offGrid));
 
-			//out.eval();
-
 			af::array *out_ptr = new af::array(std::move(out));
-			dim_t *dim_sz = out_ptr->dims().get();
-			std::vector<size_t> sz(dim_sz, dim_sz + out_ptr->numdims());
-			plhs[0] = refPointer2mxStruct(sz, out_ptr->isdouble(), out_ptr->isreal(), 
-				static_cast<void*>(out_ptr));		
+			plhs[0] = afAry2mxStruct(out_ptr);
 
 		}
 		else {

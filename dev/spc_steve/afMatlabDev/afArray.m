@@ -31,6 +31,15 @@ classdef afArray < handle
                 disp('afArray was not proplerly deleted.');
             end
         end
+        
+        function out = plus(obj, other)
+            isScalarFlag = isscalar(other);
+            if isScalarFlag
+                out = afArray(afBinaryFunc_mex(obj.prop.Pgpu, other, isScalarFlag, 'plus'));
+            else
+                out = afArray(afBinaryFunc_mex(obj.prop.Pgpu, other.prop.Pgpu, isScalarFlag, 'plus'));
+            end
+        end
 
     end
     methods(Static)

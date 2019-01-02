@@ -85,5 +85,14 @@ mxArray *refPointer2mxStruct(const std::vector<size_t> &sz, bool isDouble, bool 
 
 }
 
+mxArray *afAry2mxStruct(af::array *af_ptr) {
+
+	dim_t *dim_sz = af_ptr->dims().get();
+	std::vector<size_t> sz(dim_sz, dim_sz + af_ptr->numdims());
+	return refPointer2mxStruct(sz, af_ptr->isdouble(), af_ptr->isreal(),
+		static_cast<void*>(af_ptr)); 
+
+}
+
 
 #endif
