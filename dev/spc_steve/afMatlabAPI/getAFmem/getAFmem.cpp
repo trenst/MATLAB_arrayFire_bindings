@@ -6,10 +6,6 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
     mxUint64 *ref = mxGetUint64s(prhs[0]);
     bool isAllocated = (*ref != 0);
 
-
-    mxUint64 *ref_out = refPointer2mxUint64(plhs[0]);
-
-
     try {
 #ifdef UNIFIED_BACKEND
 		af::setBackend(afCommon::af_BACKEND);
@@ -29,7 +25,7 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
             plhs[0] = mxCreateUninitNumericArray(NDim, dims_szt.data(), classID4mx, complexity4mx);
             void *p_host = mxGetData(plhs[0]);
             ref_a->host(p_host);
-            *ref_out = reinterpret_cast<mxUint64>(ref_a);
+			plhs[1] = afAry2mxStruct(ref_a);
 
         }
         else {
