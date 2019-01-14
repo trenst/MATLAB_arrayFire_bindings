@@ -103,3 +103,55 @@ max_diff = max(abs(reshape(minus_mat - minus_mex, [], 1)))
 max_diff_mex_mat2 = max(abs(reshape(minus_mat2 - minus_mex, [], 1)))
 
 
+%array rdivide array
+a1 = r1;
+a2 = r2;
+divide_mat = a1./a2;
+
+a1AF = afArray(a1);
+a2AF = afArray(a2);
+
+divide_mexAF = a1AF ./ a2AF;
+divide_mex = divide_mexAF.getAFmem();
+
+max_diff = max(abs(reshape(divide_mat - divide_mex, [], 1)))
+
+%array rdivide array
+a1 = single(r1);
+a2 = single(r2);
+divide_mat = a1./a2;
+
+a1AF = afArray(a1);
+a2AF = afArray(a2);
+
+divide_mexAF = a1AF ./ a2AF;
+divide_mex = divide_mexAF.getAFmem();
+
+max_diff = max(abs(reshape(divide_mat - divide_mex, [], 1)))
+
+%array rdivide array
+a1 = r1;
+a2 = r2;
+divide_mat = a1./a2;
+
+a1AF = afArray(a1);
+a2AF = afArray(a2);
+
+divide_mexAF = a1AF ./ a2AF;
+divide_mex = divide_mexAF.getAFmem();
+
+max_diff = max(abs(reshape(divide_mat - divide_mex, [], 1)))
+
+%complex double rdivide array
+a1 = 2.2377423+ 2.6672373i;
+a2 = r2;
+divide_mat = a1./a2;
+
+%a1AF = afArray(a1);
+a2AF = afArray(a2);
+
+divide_mexAF = a1 ./ a2AF;
+divide_mex = divide_mexAF.getAFmem();
+
+max_diff = max(abs(reshape(divide_mat - divide_mex, [], 1)))
+

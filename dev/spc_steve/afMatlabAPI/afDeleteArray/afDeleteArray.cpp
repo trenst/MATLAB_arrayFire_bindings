@@ -8,6 +8,7 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 
     
     mxUint64 *ref_out = refPointer2mxUint64(plhs[0]);
+	*ref_out = 999999;
 
 
     try {
@@ -17,12 +18,12 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 #endif
 
         if (isAllocated) {
-            *ref_out = 0;
             af::array *ref_a = reinterpret_cast<af::array*>(*ref);
 #ifdef PRINTPOINTERDELETEINFO
             mexPrintf("Deleting pointer %llu.\n", *ref);
 #endif
             delete ref_a;
+            *ref_out = 0;
         }
         else {
             mexPrintf("afDeleteArray called when no gpu Memory is allocated.");
