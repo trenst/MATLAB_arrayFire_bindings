@@ -39,22 +39,26 @@ classdef afArray < handle
                 error('\n%s\n','afArray was not proplerly deleted.');
             end
         end
-        
-        %{
-        function testInput1(obj, in)
-            obj.test_in = in;
+%% overloading MATLAB functions
+        function varargout = size(obj, dim)
+            varargout = cell(nargout,1);
+            switch nargin
+                case 1
+                    if (nargout == 1)
+                        varargout{1} = obj.prop.sz;
+                    else
+                        varargout = num2cell(obj.prop.sz);
+                    end
+                case 2
+                    [varargout{:}] = obj.prop.sz(dim);
+                otherwise
+                    error('\n%s\n','Improper call of afArray.size().');
+            end
         end
-        function [out] = testInput2(obj, in)
-            obj.test_in = in;
-            out = 999;
-        end        
-        function [out1, out2] = testInput3(obj, in1, in2)
-            obj.test_in = {in1, in2};
-            out1 = 999;
-            out2 = in2;
+        function bool = isreal(obj)
+            bool = obj.prop.isReal;
         end
-        %}
-        
+                
 %% Binary Operations
         function out = plus(af1, af2)      
             out = afArray.afBinaryFunc(af1, af2, 'plus');
@@ -70,6 +74,7 @@ classdef afArray < handle
         end     
 %% Indexing
         function varargout = subsref(obj, subs)
+            % Deal with methods and properties here.
             if strcmp(subs(1).type,'.')
                 if strcmp(subs(1).subs, 'prop')
                     varargout = cell(1);
@@ -91,7 +96,7 @@ classdef afArray < handle
                 Nsubs = numel(subs.subs);
                 Ndim = size(obj.prop.sz, 2);
                 if (Ndim == 2) && any(obj.prop.sz == 1)
-                    Ndim = 1;  % If obj.prop.sz is M x 1  or   1 x N, then the array in 1D.
+                    Ndim = 1;  % If obj.prop.sz is M x 1  or   1 x N, then the array is 1D.
                 end
                 varargout = cell(1);
                 
@@ -124,10 +129,8 @@ classdef afArray < handle
                     error('\n%s\n','Don''t span all the dimensions... just use the array variable.');
                 end
                 
-                struct_tmp = afIndexRef_mex(obj.prop.Pgpu, isSpan, isScalar, indsScalar);
-                varargout{1} = afArray( struct_tmp );
-                                
-                
+                varargout{1} = afArray( afIndexRef_mex(obj.prop.Pgpu, isSpan, isScalar, indsScalar) );
+                                                
             else
                 error('\n%s\n','afArray indexing uses parenthesis... obj(index)');
             end
@@ -145,8 +148,7 @@ classdef afArray < handle
         end
     
     end
-
-
+    
     methods(Static)
     %%Static Methods        
         function af_struct = buildStruct(sz, dtype, isReal, Pgpu)
@@ -161,10 +163,12 @@ classdef afArray < handle
             fieldTypes = {'sz', 'dtype', 'isReal', 'Pgpu'};
         end
         function out = afBinaryFunc(af1, af2, operation)
-            isS = @(af) isscalar(af) && ~isa((af), 'afArray');
+            %is af a matlab scalar?
+            isS = @(af) isscalar(af) && ~isa(af, 'afArray');
             isScalarAF = [isS(af1), isS(af2)];     
-            isMArray = ~isscalar(af1)  || ~isscalar(af2);
-            if isMArray
+            %is af a matlab array?...  not a 1x1 scalar?
+            isM = @(af) ~isscalar(af) && ~isa(af, 'afArray');
+            if ( isM(af1)  || isM(af2) )
                 error('afArray binary operations can only be performed on 2 afArray''s or on an afArray and a scalar');
             end
             if any(isScalarAF)

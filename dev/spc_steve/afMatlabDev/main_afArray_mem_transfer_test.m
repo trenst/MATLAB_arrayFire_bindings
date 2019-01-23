@@ -12,7 +12,7 @@ sz = [N, N];
 
 maxdiff = 0;
 
-Ncycle = 25;
+Ncycle = 5;
 
 for ii=1:Ncycle
     a1 = rand(sz);

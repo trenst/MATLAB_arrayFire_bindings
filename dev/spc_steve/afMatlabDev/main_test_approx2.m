@@ -54,7 +54,7 @@ Yrand = 0.7*Yrand;
 
 [Xrand_1, Yrand_1] = scale_interp2_grid(Xmesh, Ymesh, Xrand, Yrand);
 
-NLoop  = 1;
+NLoop  = 100;
 tic
 for ind=1:NLoop
     Zi = interp2(Zv, Xrand_1, Yrand_1, 'linear', 0.);
