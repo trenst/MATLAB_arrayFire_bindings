@@ -33,7 +33,6 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 						//array op complex single scalar
 						void *right = mxGetComplexSingles(right_Mary);
 						out_ptr = binary_op(left, static_cast<af::cfloat*>(right), operation);
-						mexPrintf("//array op complex single scalar\n");
 					}
 					else {
 						//array op real single scalar
@@ -50,7 +49,6 @@ DLL_PUBLIC void mexFunction(int nlhs, mxArray **plhs, int nrhs, const mxArray **
 						//array op real double scalar
 						double *right = mxGetDoubles(right_Mary);
 						out_ptr = binary_op(left, right, operation);
-						mexPrintf("//array op real double scalar\n");
 					}
 				}
 			}

@@ -30,12 +30,11 @@ function [xq1, yq1] = scale_interp2_grid(XX, YY, xq, yq, isZeroBasedIndexing)
     if (nargin==4)
         isZeroBasedIndexing = false;
     end
-    [Ny, Nx] = size(XX);
-    deltaX = (XX(1, end) - XX(1,1)) / (Nx-1);
-    deltaY = (YY(end, 1) - YY(1,1)) / (Ny-1);
     
-    xq1 = (xq - XX(1))/deltaX;
-    yq1 = (yq - YY(1))/deltaY;       
+    [XX_11, YY_11, deltaX, deltaY] = scale_interp2_grid_initialize(XX, YY);
+        
+    xq1 = (xq - XX_11)/deltaX;
+    yq1 = (yq - YY_11)/deltaY;       
     
     if ~isZeroBasedIndexing
         xq1 = xq1 + 1;

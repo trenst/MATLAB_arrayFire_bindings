@@ -26,7 +26,7 @@ classdef afFunct < handle
             out = afArray( approx2_mex(in.prop.Pgpu, pos0.prop.Pgpu, pos1.prop.Pgpu, method, offGrid) );
             %out = afArray(out);
             
-        end
+        end        
         function out = interp2()
             
             out = 0;
