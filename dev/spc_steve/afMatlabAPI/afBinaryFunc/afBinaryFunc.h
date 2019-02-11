@@ -17,14 +17,14 @@ af::array *binary_op(T1* left, T2 *right, afCommon::opType operation) {
 	af::array out;
 
 	switch (operation) {
-	case afCommon::opType::plus:
-		out = *left + *right; break;
-	case afCommon::opType::minus:
-		out = *left - *right; break;
-	case afCommon::opType::times:
-		out = *left * *right; break;
-	case afCommon::opType::rdivide:
-		out = *left / *right; break;
+		case afCommon::opType::plus:
+			out = *left + *right; break;
+		case afCommon::opType::minus:
+			out = *left - *right; break;
+		case afCommon::opType::times:
+			out = *left * *right; break;
+		case afCommon::opType::rdivide:
+			out = *left / *right; break;
 	}
 
 	return new af::array(std::move(out));

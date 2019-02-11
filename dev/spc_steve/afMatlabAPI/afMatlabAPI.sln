@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "afBinaryFunc", "afBinaryFun
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "afIndexRef", "afIndexRef\afIndexRef.vcxproj", "{C77F922F-9786-46AE-85BA-5E92BB9BF3C9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "afUnaryFunc", "afUnaryFunc\afUnaryFunc.vcxproj", "{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{C77F922F-9786-46AE-85BA-5E92BB9BF3C9}.Release|x64.Build.0 = Release|x64
 		{C77F922F-9786-46AE-85BA-5E92BB9BF3C9}.Release|x86.ActiveCfg = Release|Win32
 		{C77F922F-9786-46AE-85BA-5E92BB9BF3C9}.Release|x86.Build.0 = Release|Win32
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Debug|x64.ActiveCfg = Debug|x64
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Debug|x64.Build.0 = Debug|x64
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Debug|x86.ActiveCfg = Debug|Win32
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Debug|x86.Build.0 = Debug|Win32
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Release|x64.ActiveCfg = Release|x64
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Release|x64.Build.0 = Release|x64
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Release|x86.ActiveCfg = Release|Win32
+		{4AE065A6-24B9-4EF8-801D-2CCE342EBB85}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,6 +25,9 @@ classdef afArray < handle
         end
 %% Copy memory from device to host.
         function out = getAFmem(obj)
+            if nargout > 1
+                error('\n%s\n','memory output from afArray can only be stored in one variable.  Incorrect number of outputs.');
+            end
             [out, obj.prop] = getAFmem_mex(obj.prop.Pgpu);
         end
 %% Destructor
@@ -44,7 +47,7 @@ classdef afArray < handle
             varargout = cell(nargout,1);
             switch nargin
                 case 1
-                    if (nargout == 1)
+                    if (nargout <= 1)
                         varargout{1} = obj.prop.sz;
                     else
                         varargout = num2cell(obj.prop.sz);
@@ -59,6 +62,114 @@ classdef afArray < handle
             bool = obj.prop.isReal;
         end
                 
+%% Unary Operations
+        % Trigonometric Functions
+        function out = sin(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'sin') );
+        end
+        function out = asin(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'asin') );
+        end      
+        function out = cos(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'cos') );
+        end   
+        function out = acos(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'acos') );
+        end
+        function out = tan(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'tan') );
+        end   
+        function out = atan(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'atan') );
+        end
+        % Hyperbolic Functions
+        % ArrayFire Supports Real Inputs only to hyperbolic functions
+        function out = sinh(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'sinh') );
+        end
+        function out = asinh(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'asinh') );
+        end      
+        function out = cosh(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'cosh') );
+        end   
+        function out = acosh(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'acosh') );
+        end
+        function out = tanh(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'tanh') );
+        end   
+        function out = atanh(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'atanh') );
+        end
+        % Complex Functions
+        function out = conj(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'conjg') );
+        end 
+        function out = real(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'real') );
+        end   
+        function out = imag(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'imag') );
+        end  
+        function out = ctranspose(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'ctranspose') );
+        end  
+        function out = transpose(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'transpose') );
+        end  
+        % Exponential and logarithmic functions
+        function out = realsqrt(obj)
+            % ArrayFire does not support sqrt of complex numbers
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'sqrt') );
+        end  
+        function out = erf(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'erf') );
+        end
+        function out = erfc(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'erfc') );
+        end   
+        function out = exp(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'exp') );
+        end 
+        function out = expm1(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'expm1') );
+        end  
+        function out = factorial(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'factorial') );
+        end   
+        function out = gamma(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'tgamma') );
+        end  
+        function out = gammaln(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'lgamma') );
+        end    
+        function out = log(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'log') );
+        end
+        function out = log10(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'log10') );
+        end
+        function out = log1p(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'log1p') );
+        end
+        % Numeric Functions
+        function out = angle(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'arg') );
+        end
+        function out = abs(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'abs') );
+        end   
+        function out = ceil(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'ceil') );
+        end    
+        function out = floor(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'floor') );
+        end  
+        function out = round(obj)
+            out = afArray( afUnaryFunc_mex(obj.prop.Pgpu, 'round') );
+        end                
+%% Unary Operations Inplace
 %% Binary Operations
         function out = plus(af1, af2)      
             out = afArray.afBinaryFunc(af1, af2, 'plus');
@@ -71,7 +182,7 @@ classdef afArray < handle
         end
         function out = rdivide(af1, af2)
             out = afArray.afBinaryFunc(af1, af2, 'rdivide');
-        end     
+        end             
 %% Indexing
         function varargout = subsref(obj, subs)
             % Deal with methods and properties here.
