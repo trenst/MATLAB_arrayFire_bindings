@@ -1,9 +1,3 @@
-Hey guys, even though this only supports a very minimal set of functionality of MATLAB, I wanted to see if you want to give it a try.  It's important to get a feel for the I/O bottleneck in transfer of data to and from the GPU.  Once you understand this, you can determine that portion of your code that could be sped up with GPU processing.  You can also try benchmarking native MATLAB operations against GPU operations.
-
-See me if you want to get this code running on your PC.  I'm looking for feedback from you about [ArrayFire](http://arrayfire.org/docs/index.htm) functionality that can be incorporated into MATLAB... so checkout the website, and see what is available.  Most of the base MATLAB functions are there and a lot of functionality which comes from various toolboxes like the image processing toolbox.  I'm basically taking a survey to determine how to prioritize the API development.  
-
-Here's the current state of the API:
-
 # MATLAB API for ArrayFire
 
 [ArrayFire](http://arrayfire.org/docs/index.htm) is a high performance software library for parallel computing with an easy-to-use API. Its array based function set makes GPGPU programming more accessible.  There are both C and C++ interfaces to ArrayFire.  The purpose of this project is to expose the ArrayFire library to MATLAB through an API using syntax familiar to the MATLAB developer.  The API introduces a new MALAB class called afArray.  An afArray object references an ArrayFire array stored on the GPU.  Inputs to ArrayFire functions are afArrays, and the output is also an afArray.  Memory I/O to/from the GPU only occurs when an explicit call is made, so the developer can optimize the code to minimize the amount of I/O which takes place.  GPU memory I/O is the main bottleneck in GPGPU processing, so giving the MATLAB programmer control over this task is vital to the success of this API.
