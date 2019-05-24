@@ -12,7 +12,9 @@ The MATLAB API supports
 + afArray destruction manually or automatically when the object goes out of scope.
 + single / double real and complex arrays.
 + Array indexing:
-  + spanning of an entire dimension.
+  + spanning of an entire dimension for reference (not assignment).
+    + i.e.  `array(4,:,:,7)`
+    + subsref supported. subsasgn is on the todo list.
   + scalar integer indexing of a dimension.
 + Binary Operations: 
     + afArray-afArray Element-wise: +, -, *, /
@@ -26,7 +28,7 @@ The MATLAB API supports
         + `sin, asin, cos, acos, tan, atan`
     + Hyperbolic Functions:
         + Supports only real input
-        + `sinh, cosh, acosh, tanh, atanh`
+        + `sinh, asinh, cosh, acosh, tanh, atanh`
     + Complex Functions:
         + `conj, real, imag, ctranspose, transpose`
         + MATLAB syntex for `ctranspose` and `transpose` supported... `array'` and `array.'`
@@ -41,7 +43,11 @@ ArrayFire should be [installed](http://arrayfire.org/docs/installing.htm).
 A new memory model for [complex numbers](https://www.mathworks.com/help/matlab/matlab_external/matlab-support-for-interleaved-complex.html) was introduced in MATLAB R2018a in addition to an expanded MEX API which the bindings to ArrayFire take advantage of.  Thus you'll need this version of MATLAB at a minimum.
 
 To try it, you should have at least a 1 GB graphics card.  For using in production code, the more memory the better.  I have 8GB.
-    
+
+# How to Build
+In order to build, 2 environment variables will need to be set.  `AF_PATH` should be defined as your ArrayFire installation folder, and `MATLAB_EXTERN` should be defined as your MATLAB extern folder (R2018 or higher).
+Open the solution for Microsoft Visual Studio 2015 `afMatlabAPI/afMatlabAPI.sln`.  Select x64/release and then build.  The mex files will be built into the /afMatlabDev folder and ready for use with the MATLAB code in that folder.
+
 # Example Usage
 Create an afArray by passing a MATLAB array.
 ```
