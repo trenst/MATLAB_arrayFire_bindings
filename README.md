@@ -20,6 +20,20 @@ The MATLAB API supports
         + another list item
         + one more list item
 + [approx2](http://arrayfire.org/docs/group__signal__func__approx2.htm) - 2D interpolation.
++ Unary Operations: y = f(x) Element-wise functions
+    + Trigonometric Functions
+        + Supports only real input
+        + `sin, asin, cos, acos, tan, atan`
+    + Hyperbolic Functions:
+        + Supports only real input
+        + `sinh, cosh, acosh, tanh, atanh`
+    + Complex Functions:
+        + `conj, real, imag, ctranspose, transpose`
+        + MATLAB syntex for `ctranspose` and `transpose` supported... `array'` and `array.'`
+    + Exponential and Logarithmic Functions:
+        + `realsqrt, erf, erc, exp, expm1, factorial, gamma, gamma1n, log, log10, log1p`
+    + Numeric Functions:
+        + `angle, abs, ceil, floor, round`
 
 
 # Requirements
